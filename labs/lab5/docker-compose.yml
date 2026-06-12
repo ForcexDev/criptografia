@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  c1:
+    image: ubuntu:16.10
+    container_name: C1
+    command: tail -f /dev/null
+    # Se cambian los repositorios a old-releases por ser una version EOL
+    # Se instala el cliente SSH
+    entrypoint: /bin/sh -c "sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && apt-get update && apt-get install -y openssh-client && tail -f /dev/null"
+
+  c2:
+    image: ubuntu:18.10
+    container_name: C2
+    command: tail -f /dev/null
+    entrypoint: /bin/sh -c "sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && apt-get update && apt-get install -y openssh-client && tail -f /dev/null"
+
+  c3:
+    image: ubuntu:20.10
+    container_name: C3
+    command: tail -f /dev/null
+    entrypoint: /bin/sh -c "sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && apt-get update && apt-get install -y openssh-client && tail -f /dev/null"
+
+  c4_s1:
+    image: ubuntu:22.10
+    container_name: S1
+    command: tail -f /dev/null
+    # Instala cliente y servidor SSH. Crea usuario 'prueba' con password 'prueba'
+    entrypoint: /bin/sh -c "sed -i 's/archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && apt-get update && apt-get install -y openssh-client openssh-server && useradd -m -s /bin/bash prueba && echo 'prueba:prueba' | chpasswd && service ssh start && tail -f /dev/null"
